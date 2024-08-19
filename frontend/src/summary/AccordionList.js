@@ -10,29 +10,34 @@ import {extractResponseImages} from "../utils/ImageHandlingUtils"
 const AccordionList = () => {
     const { summaryResults, solutionLoading,
         setSolutionLoading, setReferenceResults, setReferenceImageResults } = useContext(GlobalAppContext)
-
-  const triggerLoadingSolution = async (id) => {
-    try {
-        setSolutionLoading(true);
-        const response = await axios.post("http://127.0.0.1:5000/process/reference" + "?id=" + id, {
-            data: "Your request data here",
-        });
-        setReferenceResults(response.data);
-        if (response.data.zip_file != null) {
-            const images = await extractResponseImages(response.data);
-            setReferenceImageResults(oldImages => images);
-        }
-      } catch (error) {
-        console.error("Error making POST request", error);
-      }
-      finally {
-        setSolutionLoading(false);
-      }
-  };
+        const [clickedSolutionIdx, setClickedSolutionIdx] = useState(-1);
 
   useEffect(() => {
+    if (clickedSolutionIdx == -1) {
+        return;
+    }
+    const triggerLoadingSolution = async () => {
+        let id = clickedSolutionIdx;
+        try {
+            setSolutionLoading(true);
+            const response = await axios.post("http://127.0.0.1:5000/process/reference" + "?id=" + id, {
+                data: "Your request data here",
+            });
+            setReferenceResults(response.data);
+            if (response.data.zip_file != null) {
+                const images = await extractResponseImages(response.data);
+                setReferenceImageResults(oldImages => images);
+            }
+          } catch (error) {
+            console.error("Error making POST request", error);
+          }
+          finally {
+            setSolutionLoading(false);
+          }
+      };
     triggerLoadingSolution();
-  }, []); // Dependency array controls when the effect runs
+    setClickedSolutionIdx(-1);
+  }, [clickedSolutionIdx]); // Dependency array controls when the effect runs
 
   const createNewSolution = () => {};
 
@@ -65,7 +70,7 @@ const AccordionList = () => {
         <Accordion.Item
           eventKey={index.toString()}
           key={index}
-          onClick={() => triggerLoadingSolution(item.id)}
+          onClick={() => setClickedSolutionIdx(item.id)}
         >
           <Accordion.Header>{item.name}</Accordion.Header>
           <AccordionContent item={item} />

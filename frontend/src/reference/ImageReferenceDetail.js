@@ -1,13 +1,23 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Spinner, Card } from 'react-bootstrap';
 import { GlobalAppContext } from "../GlobalAppContext";
 
 const ImageReferenceDetailComponent = () => {
     const {solutionLoading, referenceImageResults} = useContext(GlobalAppContext);
-    // const [localReferenceImageResults, setLocalReferenceImageResults] = useState([])
+    const [localReferenceImageResults, setLocalReferenceImageResults] = useState([])
+    
+    useEffect(() => {
+        if (referenceImageResults.length == 0) return; // If clicked is false, skip the effect
 
-    console.log(referenceImageResults);
-    // setLocalReferenceImageResults(referenceImageResults);
+        console.log(localReferenceImageResults);
+
+
+        const fetchData = async () => {
+            setLocalReferenceImageResults(referenceImageResults);
+        }
+        fetchData();
+                    
+      }, [localReferenceImageResults]);
 
   return (
     <Container>
@@ -20,7 +30,7 @@ const ImageReferenceDetailComponent = () => {
       ) : (
         <Row>
             <p>hhh</p>
-          {referenceImageResults.map((image, index) => {
+          {localReferenceImageResults.map((image, index) => {
             <React.Fragment >
               <Col md="4" className="mb-3">
                 <Card>
