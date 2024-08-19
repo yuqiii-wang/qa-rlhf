@@ -1,24 +1,38 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useContext, useEffect, useRef, useCallback } from "react";
 import { Accordion, Button, Container } from "react-bootstrap";
-import Spinner from "react-bootstrap/Spinner";
 import AccordionContent from "./AccordionContent";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import axios from "axios";
+import {GlobalAppContext} from "../GlobalAppContext";
+import {extractResponseImages} from "../utils/ImageHandlingUtils"
 
-const AccordionList = ({ summaryResults, setDetailResults }) => {
+const AccordionList = () => {
+    const { summaryResults, solutionLoading,
+        setSolutionLoading, setReferenceResults, setReferenceImageResults } = useContext(GlobalAppContext)
 
-  const triggerLoadingDetail = async (id) => {
+  const triggerLoadingSolution = async (id) => {
     try {
-        const response = await axios.post("http://127.0.0.1:5000/process/detail" + "?id=" + id, {
+        setSolutionLoading(true);
+        const response = await axios.post("http://127.0.0.1:5000/process/reference" + "?id=" + id, {
             data: "Your request data here",
         });
-        console.log(response);
-        setDetailResults(response.data);
+        setReferenceResults(response.data);
+        if (response.data.zip_file != null) {
+            const images = await extractResponseImages(response.data);
+            setReferenceImageResults(oldImages => images);
+        }
       } catch (error) {
         console.error("Error making POST request", error);
       }
+      finally {
+        setSolutionLoading(false);
+      }
   };
+
+  useEffect(() => {
+    triggerLoadingSolution();
+  }, []); // Dependency array controls when the effect runs
 
   const createNewSolution = () => {};
 
@@ -51,7 +65,7 @@ const AccordionList = ({ summaryResults, setDetailResults }) => {
         <Accordion.Item
           eventKey={index.toString()}
           key={index}
-          onClick={() => triggerLoadingDetail(item.id)}
+          onClick={() => triggerLoadingSolution(item.id)}
         >
           <Accordion.Header>{item.name}</Accordion.Header>
           <AccordionContent item={item} />

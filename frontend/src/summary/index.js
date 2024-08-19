@@ -2,19 +2,17 @@ import React from "react";
 import { Container, Card } from "react-bootstrap";
 import SummaryCard from "./SummaryCard";
 
-const SummaryComponent = ({ summaryResults, setDetailResults }) => {
+const SummaryComponent = () => {
 
   return (
-    <Container fluid>
-      <Card
+    <Container fluid >
+      <Card 
         style={{
           marginTop: "1%",
           marginBottom: "1%",
         }}
       >
         <SummaryCard
-          summaryResults={summaryResults}
-          setDetailResults={setDetailResults}
         />
       </Card>
     </Container>

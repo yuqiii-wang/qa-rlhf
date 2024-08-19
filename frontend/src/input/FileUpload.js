@@ -94,7 +94,6 @@ const FileUploadComponent = () => {
       }}
     >
       <Form.Group controlId="formFile" className="mb-3">
-        <Form.Label>Upload a file</Form.Label>
         <Form.Control type="file" onChange={handleInputFileUpload} />
       </Form.Group>
 
@@ -125,7 +124,7 @@ const FileUploadComponent = () => {
 
       {!fileData && (
         <p className="text-center">
-          Drag and drop an image here or click to upload.
+          Drag and drop a file here or click to upload.
         </p>
       )}
     </div>
