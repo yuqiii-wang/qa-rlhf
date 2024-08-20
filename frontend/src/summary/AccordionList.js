@@ -24,7 +24,7 @@ const AccordionList = () => {
                 data: "Your request data here",
             });
             setReferenceResults(response.data);
-            if (response.data.zip_file != null) {
+            if (response.data.zip_file !== null) {
                 const images = await extractResponseImages(response.data);
                 setReferenceImageResults(oldImages => images);
             }

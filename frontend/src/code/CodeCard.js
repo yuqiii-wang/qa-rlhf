@@ -33,7 +33,6 @@ const CodeCard = ({ initialCode, language = 'javascript' }) => {
           id="code-tabs"
           activeKey={key}
           onSelect={(k) => setKey(k)}
-          className="mb-3"
         >
           <Tab eventKey="code" title="Code">
           <Card.Body>
@@ -47,7 +46,7 @@ const CodeCard = ({ initialCode, language = 'javascript' }) => {
               <SyntaxHighlighter
                 language={language}
                 style={github}
-                customStyle={{ padding: '10px', borderRadius: '5px', overflow: 'auto', textAlign: 'left' }}
+                customStyle={{ overflow: 'auto', textAlign: 'left' }}
               >
                 {code}
               </SyntaxHighlighter>
