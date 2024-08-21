@@ -6,12 +6,21 @@ import ImageReferenceDetails from "./ImageReferenceDetails";
 import CodeReferenceDetails from "./CodeReferenceDetails";
 import { GlobalAppContext } from "../GlobalAppContext";
 import {ReferenceContext, ReferenceContextManager} from './ReferenceContext';
-import InputCmd from "./InputCmd";
-import "./css/ReferenceDetail.css"
 
-const ReferenceDetailComponent = () => {
+const InputCmd = () => {
     const { referenceResults, referenceImageResults, setExecutionLoading } = useContext(GlobalAppContext);
     const { codeRows, setCodeRows } = useContext(ReferenceContext);
+
+
+  const handleArrowClick = () => {
+    // Define your arrow click logic here
+    alert('Arrow clicked');
+  };
+
+  const handleConcludeClick = () => {
+    // Define your conclude button logic here
+    alert('Conclude clicked');
+  };
 
   const handleAddNotesClick = () => {
     const newRow = ({ id: codeRows.length+1, code: '# Double click this area to edit. \
@@ -22,18 +31,27 @@ const ReferenceDetailComponent = () => {
 
 
   return (
-    <Container className="border reference-detail-container">
-      <Row >
-        <Col>
-        {referenceImageResults != null ? (
-          <ImageReferenceDetails />
-        ) : ("")}
-          <CodeReferenceDetails/>
+      <div className="align-items-center">
+        <Row style={{display: "flex-end"}}>
+        <Col xs={8}>
+          <InputGroup>
+            <Form.Control type="text" placeholder="Shell scripts, e.g., `grep 123456789 *.log`" />
+            <Button variant="outline-secondary" onClick={handleArrowClick}>
+              →
+            </Button>
+          </InputGroup>
         </Col>
-      </Row>
-      <InputCmd></InputCmd>
-    </Container>
+        <Col xs={4}>
+          <Button variant="primary" onClick={handleConcludeClick} style={{marginLeft:"1%", display: "flex-end"}}>
+            Conclude
+          </Button>
+          <Button variant="primary" onClick={handleAddNotesClick} style={{marginLeft:"2%", display: "flex-end"}}>
+            Add Notes
+          </Button>
+        </Col>
+        </Row>
+      </div>
   );
 };
 
-export default ReferenceDetailComponent;
+export default InputCmd;

@@ -3,12 +3,13 @@ import { Container, Row, Col, Form, Spinner, Card } from 'react-bootstrap';
 import { GlobalAppContext } from "../GlobalAppContext";
 import ImageReferenceDetail from './ImageReferenceDetail';
 
-const ImageReferenceDetails = ({images}) => {
-    const {solutionLoading, referenceImageResults} = useContext(GlobalAppContext);
+const ImageReferenceDetails = () => {
+    const {solutionLoading, referenceImageResults, setReferenceImageResults} = useContext(GlobalAppContext);
     const [localReferenceImageResults, setLocalReferenceImageResults] = useState([]);
 
     const handleDeleteRow = (imageName) => {
         setLocalReferenceImageResults(localReferenceImageResults.filter(image => image.name !== imageName));
+        setReferenceImageResults(localReferenceImageResults.filter(image => image.name !== imageName));
         console.log(localReferenceImageResults);
     };
     

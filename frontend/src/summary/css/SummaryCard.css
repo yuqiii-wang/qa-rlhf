@@ -1,0 +1,8 @@
+.summary-container {
+    overflow-y: auto;
+    height: 50%;
+}
+
+.summary-container-card {
+    height: 50%;
+}

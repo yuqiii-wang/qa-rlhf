@@ -11,9 +11,7 @@ const CodeDetailComponent = ({ code }) => {
   `;
 
   return (
-    <Container fluid>
         <CodeCard initialCode={codeSnippet} ></CodeCard>
-    </Container>
   );
 };
 

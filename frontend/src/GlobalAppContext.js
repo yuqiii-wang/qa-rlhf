@@ -20,7 +20,7 @@ function GlobalAppContextManager({ children }) {
                                         summaryResults, setSummaryResults,
                                         referenceResults, setReferenceResults,
                                         referenceImageResults, setReferenceImageResults,
-                                        codeResults, setCodeResults
+                                        codeResults, setCodeResults,
                                         }}>
         {children}
       </GlobalAppContext.Provider>

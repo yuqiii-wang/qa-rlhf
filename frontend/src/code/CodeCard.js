@@ -3,6 +3,7 @@ import { Card, Button, Tab, Tabs } from 'react-bootstrap';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import Tooltip from "react-bootstrap/Tooltip";
+import SummaryCard from "./CodeSummaryCard";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
 import shell from 'react-syntax-highlighter/dist/esm/languages/hljs/shell';
@@ -35,7 +36,6 @@ const CodeCard = ({ initialCode, language = 'javascript' }) => {
           onSelect={(k) => setKey(k)}
         >
           <Tab eventKey="code" title="Code">
-          <Card.Body>
             {isEditing ? (
               <textarea
                 value={code}
@@ -51,9 +51,7 @@ const CodeCard = ({ initialCode, language = 'javascript' }) => {
                 {code}
               </SyntaxHighlighter>
             )}
-          </Card.Body>
-          <Card.Footer>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Card.Footer style={{ display: "flex", justifyContent: "flex-end" }}>
         <OverlayTrigger
           placement="top" // You can adjust the position: 'top', 'right', 'bottom', 'left'
           overlay={<Tooltip id="button-tooltip">Edit the code.</Tooltip>}
@@ -78,13 +76,10 @@ const CodeCard = ({ initialCode, language = 'javascript' }) => {
             Execute
           </Button>
         </OverlayTrigger>
-      </div>
           </Card.Footer>
           </Tab>
-          <Tab eventKey="notes" title="Notes">
-            <Card.Body>
-              <p>Add your notes here...</p>
-            </Card.Body>
+          <Tab eventKey="notes" title="Summary">
+          <SummaryCard />
           </Tab>
           </Tabs>
         </Card>

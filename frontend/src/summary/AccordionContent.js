@@ -7,7 +7,7 @@ import axios from "axios";
 
 function AccordionContent({ item }) {
 
-  const handleEditRequest = async (id) => {
+  const handleRunRequest = async (id) => {
     try {
       const response = await axios.post("http://127.0.0.1:5000/process/edit" + "?id=" + id, {
         data: "Your request data here",
@@ -38,15 +38,15 @@ function AccordionContent({ item }) {
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <OverlayTrigger
           placement="top" // You can adjust the position: 'top', 'right', 'bottom', 'left'
-          overlay={<Tooltip id="button-tooltip">Edit this solution.</Tooltip>}
+          overlay={<Tooltip id="button-tooltip">Run this solution.</Tooltip>}
         >
           <Button
             variant="primary"
             type="submit"
-            onClick={() => handleEditRequest(item.id)}
+            onClick={() => handleRunRequest(item.id)}
             style={{ display: "flex", marginLeft: "1%", marginRight: "1%" }}
           >
-            Edit
+            Run
           </Button>
         </OverlayTrigger>
         <OverlayTrigger

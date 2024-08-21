@@ -16,7 +16,7 @@ function TopNavBar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#search">Search</Nav.Link>
-            <Nav.Link href="#history">History</Nav.Link>
+            <Nav.Link href="#audit">Audit</Nav.Link>
             <Nav.Link href="#training">Training</Nav.Link>
             <Nav.Link href="#about">About</Nav.Link>            
           </Nav>

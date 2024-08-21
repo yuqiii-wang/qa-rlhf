@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, Button, Card, Spinner } from "react-bootstra
 import axios from "axios";
 import FileUploadComponent from "./FileUpload";
 import {GlobalAppContext} from "../GlobalAppContext";
+import './css/Input.css'
 
 const InputComponent = () => {
 
@@ -24,11 +25,9 @@ const InputComponent = () => {
   };
 
   return (
-    <Container fluid>
+    <Container className="input-card border rounded">
       <Row className="justify-content-start align-items-end" style={{ height: "", margin: "0" }}>
         <Col style={{ marginBottom: "2%" }}>
-          <Card style={{ position: "relative", padding: "20px" }}>
-            <Card.Body style={{ padding: "0", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
               <Form style={{ flexGrow: 1 }}>
                 <Form.Group controlId="exampleForm.ControlTextarea1" style={{ flexGrow: 1 }}>
                   <Form.Label>Ask A Question</Form.Label>
@@ -45,8 +44,6 @@ const InputComponent = () => {
                     )}
                 </Button>
               </div>
-            </Card.Body>
-          </Card>
         </Col>
       </Row>
     </Container>

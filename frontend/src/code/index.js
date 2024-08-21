@@ -18,24 +18,13 @@ const CodeComponent = () => {
   }
 
   return (
-    <Container fluid>
-      <Card className="border-0"
-        style={{
-          width: boxSize.width,
-          height: boxSize.height,
-          marginTop: "1%",
-          marginBottom: "1%",
-        }}
-      >
-        <Row
-        >
+    <div>
+        <Row>
           <Col style={{marginLeft:"0"}}>
             <CodeDetailComponent />
           </Col>
         </Row>
-        
-      </Card>
-    </Container>
+    </div>
   );
 };
 
