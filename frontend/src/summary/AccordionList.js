@@ -10,7 +10,8 @@ import './css/AccordionList.css';
 
 const AccordionList = () => {
     const { summaryResults, solutionLoading,
-        setSolutionLoading, setReferenceResults, setReferenceImageResults } = useContext(GlobalAppContext)
+        setSolutionLoading, setReferenceResults, setReferenceImageResults,
+        setIsSolutionShowDone } = useContext(GlobalAppContext)
     const [selectSolutionIdx, setSelectSolutionIdx] = useState(-1);
     const [selectPrevSolutionIdx, setSelectPrevSolutionIdx] = useState(-1);
 
@@ -35,6 +36,7 @@ const AccordionList = () => {
             }
             finally {
                 setSolutionLoading(false);
+                setIsSolutionShowDone(true);
             }
         };
         triggerLoadingSolution();

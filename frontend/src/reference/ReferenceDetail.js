@@ -5,7 +5,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ImageReferenceDetails from "./ImageReferenceDetails";
 import CodeReferenceDetails from "./CodeReferenceDetails";
 import { GlobalAppContext } from "../GlobalAppContext";
-import {ReferenceContext, ReferenceContextManager} from './ReferenceContext';
+import { ReferenceContext, ReferenceContextManager } from './ReferenceContext';
 import InputCmd from "./InputCmd";
 import "./css/ReferenceDetail.css"
 
@@ -13,27 +13,28 @@ const ReferenceDetailComponent = () => {
     const { referenceResults, referenceImageResults, setExecutionLoading } = useContext(GlobalAppContext);
     const { codeRows, setCodeRows } = useContext(ReferenceContext);
 
-  const handleAddNotesClick = () => {
-    const newRow = ({ id: codeRows.length+1, code: '# Double click this area to edit. \
+    const handleAddNotesClick = () => {
+        const newRow = ({
+            id: codeRows.length + 1, code: '# Double click this area to edit. \
                                                     \n# You can add your comments here as free text that will be referenced by AI.' });
-    
-    setCodeRows(codeRows => [...codeRows, newRow]);
-  };
+
+        setCodeRows(codeRows => [...codeRows, newRow]);
+    };
 
 
-  return (
-    <Container className="border reference-detail-container">
-      <Row >
-        <Col>
-        {referenceImageResults != null ? (
-          <ImageReferenceDetails />
-        ) : ("")}
-          <CodeReferenceDetails/>
-        </Col>
-      </Row>
-      <InputCmd></InputCmd>
-    </Container>
-  );
+    return (
+        <div style={{ height: "100%" }}>
+            <div className="reference-detail-list-container" style={{ height: "88%", width: "100%" }}>
+                {referenceImageResults != null ? (
+                    <ImageReferenceDetails className="mt-auto" />
+                ) : ("")}
+                <CodeReferenceDetails className="mt-auto" />
+            </div>
+            <Container style={{ height: "12%", width: "100%" }}>
+                <InputCmd ></InputCmd>
+            </Container>
+        </div>
+    );
 };
 
 export default ReferenceDetailComponent;

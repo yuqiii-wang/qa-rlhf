@@ -24,7 +24,7 @@ const ImageReferenceDetails = () => {
       }, [localReferenceImageResults]);
 
   return (
-    <Container>
+    <React.Fragment >
       {solutionLoading ? (
         <Row className="justify-content-md-center">
           <Col md="6">
@@ -41,7 +41,7 @@ const ImageReferenceDetails = () => {
             ))}
         </Row>
       )}
-    </Container>
+    </React.Fragment>
   );
 };
 

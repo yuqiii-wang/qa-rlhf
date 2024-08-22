@@ -19,8 +19,7 @@ const ImageReferenceDetail = ({image, onDelete}) => {
       }, [localReferenceImageResults]);
 
   return (
-            <Row
-            className="position-relative rounded"
+            <Row className='position-relative'
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}>
             <Col md={8} >
@@ -33,7 +32,8 @@ const ImageReferenceDetail = ({image, onDelete}) => {
             </Col>
             {hover && (
         <div
-          className="position-absolute"
+          className="position-absolute reference-delete-sign-container"
+          onClick={onDelete}
           style={{
             top: '5px',
             right: '10px',
@@ -46,7 +46,6 @@ const ImageReferenceDetail = ({image, onDelete}) => {
             justifyContent: 'center',
             cursor: 'pointer',
           }}
-          onClick={onDelete}
         >
           <span style={{ fontWeight: 'bold', color: 'black' }}>&times;</span>
         </div>

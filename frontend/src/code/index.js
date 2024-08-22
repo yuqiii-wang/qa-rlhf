@@ -18,13 +18,9 @@ const CodeComponent = () => {
   }
 
   return (
-    <div>
-        <Row>
-          <Col style={{marginLeft:"0"}}>
-            <CodeDetailComponent />
-          </Col>
-        </Row>
-    </div>
+    <Container className="border rounded" style={{height: "30%"}}>
+        <CodeDetailComponent />
+    </Container>
   );
 };
 

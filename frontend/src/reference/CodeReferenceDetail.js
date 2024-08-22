@@ -20,8 +20,7 @@ const CodeReferenceDetail = ({ code, onDelete, language='shell' }) => {
   };
 
   return (
-    <Row
-      className="position-relative rounded"
+    <Container className='position-relative'
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
@@ -49,7 +48,8 @@ const CodeReferenceDetail = ({ code, onDelete, language='shell' }) => {
       </Col>
       {hover && (
         <div
-          className="position-absolute"
+          className="position-absolute reference-delete-sign-container"
+          onClick={onDelete}
           style={{
             top: '5px',
             right: '10px',
@@ -62,12 +62,11 @@ const CodeReferenceDetail = ({ code, onDelete, language='shell' }) => {
             justifyContent: 'center',
             cursor: 'pointer',
           }}
-          onClick={onDelete}
         >
           <span style={{ fontWeight: 'bold', color: 'black' }}>&times;</span>
         </div>
       )}
-    </Row>
+    </Container>
   );
 };
 

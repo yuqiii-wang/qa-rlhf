@@ -9,7 +9,7 @@ const SummaryCard = () => {
 
     if (Object.keys(summaryResults).length === 0) {
     return (
-      <p style={{ position: "relative", padding: "20px" }}>
+      <p style={{ position: "relative", padding: "20px", opacity: "0.6" }}>
         History solutions and Advice will show here.
       </p>
     );

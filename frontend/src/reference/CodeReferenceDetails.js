@@ -12,7 +12,7 @@ const CodeReferenceDetails = ({newCode}) => {
     };
   
     return (
-      <Container>
+      <React.Fragment>
         {codeRows.map(row => (
           <CodeReferenceDetail
             key={row.id}
@@ -20,7 +20,7 @@ const CodeReferenceDetails = ({newCode}) => {
             onDelete={() => handleDeleteRow(row.id)}
           />
         ))}
-      </Container>
+      </React.Fragment>
     );
   };
   

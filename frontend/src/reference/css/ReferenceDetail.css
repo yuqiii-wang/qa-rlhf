@@ -1,7 +1,32 @@
 .reference-detail-container {
-    position: 'relative';
     width: '100%';
     padding: '10px';
-    height: 30%;
+    height: 65%;
+}
+
+.reference-detail-list-container {
     overflow-y: auto;
 }
+
+.reference-input-container {
+    margin-top: 1%;
+}
+
+.reference-input-btn-container {
+    opacity: 0.6;
+    background-color: #67d1f8;
+    cursor: not-allowed;
+}
+/* 
+.reference-delete-sign-container {
+    top: '5px';
+    right: '10px';
+    background-color: 'rgba(255, 255, 255, 0.7)';
+    border-radius: '50%';
+    width: '20px';
+    height: '20px';
+    display: 'flex';
+    align-items: 'center';
+    justify-content: 'center';
+    cursor: 'pointer';
+} */

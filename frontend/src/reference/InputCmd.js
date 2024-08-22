@@ -5,53 +5,83 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ImageReferenceDetails from "./ImageReferenceDetails";
 import CodeReferenceDetails from "./CodeReferenceDetails";
 import { GlobalAppContext } from "../GlobalAppContext";
-import {ReferenceContext, ReferenceContextManager} from './ReferenceContext';
+import { ReferenceContext, ReferenceContextManager } from './ReferenceContext';
+import './css/ReferenceDetail.css';
 
 const InputCmd = () => {
-    const { referenceResults, referenceImageResults, setExecutionLoading } = useContext(GlobalAppContext);
+    const { isSolutionShowDone, isSolutionRunning,
+        setExecutionLoading, setIsSolutionConcludeDone } = useContext(GlobalAppContext);
     const { codeRows, setCodeRows } = useContext(ReferenceContext);
 
 
-  const handleArrowClick = () => {
-    // Define your arrow click logic here
-    alert('Arrow clicked');
-  };
+    const handleArrowClick = () => {
+        // Define your arrow click logic here
+        alert('Arrow clicked');
+    };
 
-  const handleConcludeClick = () => {
-    // Define your conclude button logic here
-    alert('Conclude clicked');
-  };
+    const handleConcludeClick = () => {
+        // Define your conclude button logic here
+        alert('Conclude clicked');
+        setIsSolutionConcludeDone(true);
+    };
 
-  const handleAddNotesClick = () => {
-    const newRow = ({ id: codeRows.length+1, code: '# Double click this area to edit. \
+    const handleAddNotesClick = () => {
+        const newRow = ({
+            id: codeRows.length + 1, code: '# Double click this area to edit. \
                                                     \n# You can add your comments here as free text that will be referenced by AI.' });
-    
-    setCodeRows(codeRows => [...codeRows, newRow]);
-  };
+
+        setCodeRows(codeRows => [...codeRows, newRow]);
+    };
 
 
-  return (
-      <div className="align-items-center">
-        <Row style={{display: "flex-end"}}>
-        <Col xs={8}>
-          <InputGroup>
-            <Form.Control type="text" placeholder="Shell scripts, e.g., `grep 123456789 *.log`" />
-            <Button variant="outline-secondary" onClick={handleArrowClick}>
-              →
-            </Button>
-          </InputGroup>
-        </Col>
-        <Col xs={4}>
-          <Button variant="primary" onClick={handleConcludeClick} style={{marginLeft:"1%", display: "flex-end"}}>
-            Conclude
-          </Button>
-          <Button variant="primary" onClick={handleAddNotesClick} style={{marginLeft:"2%", display: "flex-end"}}>
-            Add Notes
-          </Button>
-        </Col>
-        </Row>
-      </div>
-  );
+    return (
+        <Container className="reference-input-container">
+            <Row className="align-items-right">
+                <Col xs={8}>
+                    {!isSolutionShowDone || isSolutionRunning ? (
+                        <InputGroup>
+                            <Form.Control type="text" placeholder="Shell scripts, e.g., `grep 123456789 *.log`" />
+                            <Button variant="outline-secondary" onClick={handleArrowClick}
+                            disabled className="reference-input-btn-container">
+                                →
+                            </Button>
+                        </InputGroup>
+                    ) : (
+                        <InputGroup>
+                            <Form.Control type="text" placeholder="Shell scripts, e.g., `grep 123456789 *.log`" />
+                            <Button variant="outline-secondary" onClick={handleArrowClick}>
+                                →
+                            </Button>
+                        </InputGroup>
+                    )
+                    }
+                </Col>
+                <Col className="d-flex justify-content-end">
+                    {!isSolutionShowDone || isSolutionRunning ? (
+                        <React.Fragment>
+                            <Button variant="primary" onClick={handleConcludeClick}
+                                disabled className="reference-input-btn-container">
+                                Conclude
+                            </Button>
+                            <Button variant="primary" onClick={handleAddNotesClick} style={{ marginLeft: "2%" }}
+                                disabled className="reference-input-btn-container">
+                                Add Notes
+                            </Button>
+                        </React.Fragment>
+                    ) : (
+                        <React.Fragment>
+                            <Button variant="primary" onClick={handleConcludeClick} >
+                                Conclude
+                            </Button>
+                            <Button variant="primary" onClick={handleAddNotesClick} style={{ marginLeft: "2%" }}>
+                                Add Notes
+                            </Button>
+                        </React.Fragment>
+                    )}
+                </Col>
+            </Row>
+        </Container>
+    );
 };
 
 export default InputCmd;

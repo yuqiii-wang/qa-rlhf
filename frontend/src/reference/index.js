@@ -21,11 +21,8 @@ import { ReferenceContextManager } from "./ReferenceContext";
 const ReferenceComponent = () => {
     const { solutionLoading, detailResults } = useContext(GlobalAppContext);
 
-    const initialSize = { width: "100%", height: "60%" };
-    const [boxSize, setBoxSize] = useState(initialSize);
-
     return (
-        <div>
+        <Container className="reference-detail-container border rounded">
             <ReferenceContextManager>
                 {solutionLoading ? (
                     <Spinner
@@ -36,15 +33,11 @@ const ReferenceComponent = () => {
                         aria-hidden="true"
                     />
                 ) : (
-                        <Row>
-                            <Col style={{ marginLeft: "0" }}>
-                                <ReferenceDetailComponent />
-                            </Col>
-                        </Row>
+                    <ReferenceDetailComponent />
                 )}
                 {/* <Card className="border-0" */}
             </ReferenceContextManager>
-        </div>
+        </Container>
     );
 };
 

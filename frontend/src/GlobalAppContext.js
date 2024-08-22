@@ -12,6 +12,12 @@ function GlobalAppContextManager({ children }) {
     const [referenceResults, setReferenceResults] = useState();
     const [referenceImageResults, setReferenceImageResults] = useState([]);
     const [codeResults, setCodeResults] = useState();
+    const [isMainAskDone, setIsMainAskDone] = useState(false);
+    const [isSolutionRunning, setIsSolutionRunning] = useState(false);
+    const [isSolutionShowDone, setIsSolutionShowDone] = useState(false);
+    const [isSolutionRunDone, setIsSolutionRunDone] = useState(false);
+    const [isSolutionConcludeDone, setIsSolutionConcludeDone] = useState(false);
+    const [isSolutionExecutionDone, setIsSolutionExecutionDone] = useState(false);
 
     return (
       <GlobalAppContext.Provider value={{ answerLoading, setAnswerLoading,
@@ -21,6 +27,12 @@ function GlobalAppContextManager({ children }) {
                                         referenceResults, setReferenceResults,
                                         referenceImageResults, setReferenceImageResults,
                                         codeResults, setCodeResults,
+                                        isMainAskDone, setIsMainAskDone,
+                                        isSolutionShowDone, setIsSolutionShowDone,
+                                        isSolutionRunning, setIsSolutionRunning,
+                                        isSolutionRunDone, setIsSolutionRunDone,
+                                        isSolutionConcludeDone, setIsSolutionConcludeDone,
+                                        isSolutionExecutionDone, setIsSolutionExecutionDone
                                         }}>
         {children}
       </GlobalAppContext.Provider>

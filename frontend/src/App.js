@@ -31,7 +31,6 @@ function App() {
       <Container fluid style={{ marginTop: "1%" }}>
         <Row>
           <Col xs={leftColWidth}>
-          <div>
               <Row>
                 <Col xs={10}>
                   <SummaryComponent />
@@ -42,7 +41,6 @@ function App() {
                                         setOnMidLeftLine={setOnMidLeftLine} />
                 </Col>
               </Row>
-              </div>
           </Col>
           <Col xs={rightColWidth}>
             <ReferenceComponent />

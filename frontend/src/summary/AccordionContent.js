@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import { Accordion, ListGroup } from "react-bootstrap";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import axios from "axios";
+import FollowUpQuestion from "./FollowUpQuestion";
 
 function AccordionContent({ item }) {
+    const [onAskFollowUpQuestion, setOnAskFollowUpQuestion] = useState(false);
 
   const handleRunRequest = async (id) => {
     try {
@@ -29,40 +31,60 @@ function AccordionContent({ item }) {
     }
   };
 
+  const handleAskRequest = (id) => {
+    setOnAskFollowUpQuestion(true);
+  };
+
   return (
     <Accordion.Body class="align-items-start">
       <ListGroup as="ul" className="text-start">
         <li>Solution created date: {item.time}</li>
         <li as="li">History executions: {item.executions} times</li>
       </ListGroup>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      {onAskFollowUpQuestion ? (
+        <FollowUpQuestion setOnAskFollowUpQuestion={setOnAskFollowUpQuestion}></FollowUpQuestion>
+      ) : (
+        <Container style={{ display: "flex", justifyContent: "flex-end", marginTop: "2%"}}>
         <OverlayTrigger
-          placement="top" // You can adjust the position: 'top', 'right', 'bottom', 'left'
-          overlay={<Tooltip id="button-tooltip">Run this solution.</Tooltip>}
-        >
-          <Button
-            variant="primary"
-            type="submit"
-            onClick={() => handleRunRequest(item.id)}
-            style={{ display: "flex", marginLeft: "1%", marginRight: "1%" }}
+            placement="top" // You can adjust the position: 'top', 'right', 'bottom', 'left'
+            overlay={<Tooltip id="button-tooltip">Ask a follow-up question under this solution.</Tooltip>}
           >
-            Run
-          </Button>
-        </OverlayTrigger>
-        <OverlayTrigger
-          placement="top" // You can adjust the position: 'top', 'right', 'bottom', 'left'
-          overlay={<Tooltip id="button-tooltip">Remove this solution.</Tooltip>}
-        >
-          <Button
-            variant="primary"
-            type="submit"
-            onClick={handleRemoveRequest}
-            style={{ display: "flex", marginLeft: "1%", marginRight: "1%" }}
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={() => setOnAskFollowUpQuestion(true)}
+              style={{ display: "flex", marginLeft: "1%", marginRight: "1%" }}
+            >
+              Ask
+            </Button>
+          </OverlayTrigger>
+          <OverlayTrigger
+            placement="top" // You can adjust the position: 'top', 'right', 'bottom', 'left'
+            overlay={<Tooltip id="button-tooltip">Run this solution.</Tooltip>}
           >
-            Remove
-          </Button>
-        </OverlayTrigger>
-      </div>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={() => handleRunRequest(item.id)}
+              style={{ display: "flex", marginLeft: "1%", marginRight: "1%" }}
+            >
+              Run
+            </Button>
+          </OverlayTrigger>
+          <OverlayTrigger
+            placement="top" // You can adjust the position: 'top', 'right', 'bottom', 'left'
+            overlay={<Tooltip id="button-tooltip">Delete this solution.</Tooltip>}
+          >
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={handleRemoveRequest}
+              style={{ display: "flex", marginLeft: "1%", marginRight: "1%" }}
+            >
+              Delete
+            </Button>
+          </OverlayTrigger>
+        </Container>)}
     </Accordion.Body>
   );
 }

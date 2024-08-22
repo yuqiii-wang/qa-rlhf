@@ -7,7 +7,8 @@ import './css/Input.css'
 
 const InputComponent = () => {
 
-    const { answerLoading, setAnswerLoading, setSummaryResults } = useContext(GlobalAppContext)
+    const { answerLoading, isMainAskDone, setAnswerLoading, 
+        setSummaryResults, setIsMainAskDone } = useContext(GlobalAppContext)
 
   const handlePostRequest = async () => {
     try {
@@ -21,16 +22,22 @@ const InputComponent = () => {
       console.error("Error making POST request", error);
     } finally {
         setAnswerLoading(false);
+        setIsMainAskDone(true);
     }
   };
 
   return (
     <Container className="input-card border rounded">
-      <Row className="justify-content-start align-items-end" style={{ height: "", margin: "0" }}>
+      <Row className="justify-content-start align-items-end" style={{ height: "", margin: "2%" }}>
         <Col style={{ marginBottom: "2%" }}>
               <Form style={{ flexGrow: 1 }}>
                 <Form.Group controlId="exampleForm.ControlTextarea1" style={{ flexGrow: 1 }}>
-                  <Form.Label>Ask A Question</Form.Label>
+                    {!isMainAskDone ? (
+                        <Form.Label style={{fontWeight: 'bold', color: 'black'}}>Ask A Question</Form.Label>
+                    ) : (
+                        <Form.Label>Ask A Question</Form.Label>
+                    )}
+                  
                   <Form.Control as="textarea" rows={3} style={{ flexGrow: 1 }} />
                 </Form.Group>
                 <FileUploadComponent />
