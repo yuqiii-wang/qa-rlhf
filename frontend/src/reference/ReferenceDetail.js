@@ -10,7 +10,7 @@ import InputCmd from "./InputCmd";
 import "./css/ReferenceDetail.css"
 
 const ReferenceDetailComponent = () => {
-    const { referenceResults, referenceImageResults, setExecutionLoading } = useContext(GlobalAppContext);
+    const { referenceResults, referenceImageResults, setExecutionLoading, referenceCodeSepOffset } = useContext(GlobalAppContext);
     const { codeRows, setCodeRows } = useContext(ReferenceContext);
 
     const handleAddNotesClick = () => {
@@ -23,8 +23,9 @@ const ReferenceDetailComponent = () => {
 
 
     return (
-        <div style={{ height: "100%" }}>
-            <div className="reference-detail-list-container" style={{ height: "88%", width: "100%" }}>
+        <div>
+            <div className="reference-detail-list-container" 
+            style={{ width: "100%", height: `${Math.max(3.2, 28-referenceCodeSepOffset)}rem` }}>
                 {referenceImageResults != null ? (
                     <ImageReferenceDetails className="mt-auto" />
                 ) : ("")}

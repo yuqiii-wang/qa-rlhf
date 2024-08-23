@@ -4,6 +4,8 @@ import InputComponent from "./input";
 import SummaryComponent from "./summary";
 import ReferenceComponent from "./reference";
 import CodeComponent from "./code";
+import InputHideDisplay from "./utils/InputHideDisplay";
+import ReferenceCodeSepLine from "./utils/ReferenceCodeSep";
 
 import MiddleSeparationLine from "./utils/MiddleSep";
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -20,8 +22,8 @@ function App() {
       setLeftColWidth(4);
       setRightColWidth(8);
     } else {
-        setLeftColWidth(2);
-        setRightColWidth(10);
+        setLeftColWidth(1);
+        setRightColWidth(11);
     }
   }, [onMidLeftLine]);
 
@@ -30,20 +32,39 @@ function App() {
       <TopNavBar />
       <Container fluid style={{ marginTop: "1%" }}>
         <Row>
-          <Col xs={leftColWidth}>
+          <Col lg={leftColWidth}>
               <Row>
-                <Col xs={10}>
+                {onMidLeftLine ? (
+                    <React.Fragment>
+                        <Col xs={10}>
                   <SummaryComponent />
                   <InputComponent />
                 </Col>
                 <Col xs={2}>
-                  <MiddleSeparationLine onMidLeftLine={onMidLeftLine} 
-                                        setOnMidLeftLine={setOnMidLeftLine} />
-                </Col>
+                <MiddleSeparationLine onMidLeftLine={onMidLeftLine} 
+                                      setOnMidLeftLine={setOnMidLeftLine} />
+              </Col>
+                    </React.Fragment>
+                    
+                ) : (
+                    <React.Fragment>
+                        <Col xs={8}>
+                    <InputHideDisplay setOnMidLeftLine={setOnMidLeftLine}>
+                    </InputHideDisplay>
+                    </Col>
+                    <Col xs={4}>
+                    <MiddleSeparationLine onMidLeftLine={onMidLeftLine} 
+                                          setOnMidLeftLine={setOnMidLeftLine} />
+                  </Col>
+                  </React.Fragment>
+                )}
+                
+                
               </Row>
           </Col>
-          <Col xs={rightColWidth}>
+          <Col lg={rightColWidth}>
             <ReferenceComponent />
+            <ReferenceCodeSepLine></ReferenceCodeSepLine>
             <CodeComponent />
           </Col>
         </Row>

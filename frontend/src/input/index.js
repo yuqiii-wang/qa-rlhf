@@ -29,7 +29,7 @@ const InputComponent = () => {
   return (
     <Container className="input-card border rounded">
       <Row className="justify-content-start align-items-end" style={{ height: "", margin: "2%" }}>
-        <Col style={{ marginBottom: "2%" }}>
+        <Col >
               <Form style={{ flexGrow: 1 }}>
                 <Form.Group controlId="exampleForm.ControlTextarea1" style={{ flexGrow: 1 }}>
                     {!isMainAskDone ? (
@@ -38,7 +38,7 @@ const InputComponent = () => {
                         <Form.Label>Ask A Question</Form.Label>
                     )}
                   
-                  <Form.Control as="textarea" rows={3} style={{ flexGrow: 1 }} />
+                  <Form.Control as="textarea" rows={2} style={{ flexGrow: 1 }} />
                 </Form.Group>
                 <FileUploadComponent />
               </Form>

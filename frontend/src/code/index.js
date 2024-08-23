@@ -2,12 +2,11 @@ import React, { useState, useContext, useEffect, useRef, useCallback } from "rea
 import { Container, Row, Col, Form, Button, Card, Spinner } from "react-bootstrap";
 import CodeDetailComponent from "./CodeDetail";
 import { GlobalAppContext } from "../GlobalAppContext";
+import './css/CodeDetail.css';
+import { CodeContextManager } from "./CodeContext";
 
 const CodeComponent = () => {
-    const { solutionLoading, detailResults } = useContext(GlobalAppContext)
-
-  const initialSize = { width: "100%", height: "60%" };
-  const [boxSize, setBoxSize] = useState(initialSize);
+    const { solutionLoading, detailResults, referenceCodeSepOffset } = useContext(GlobalAppContext)
 
   if (solutionLoading) {
     return (
@@ -18,8 +17,11 @@ const CodeComponent = () => {
   }
 
   return (
-    <Container className="border rounded" style={{height: "30%"}}>
+    <Container className="code-card-container border rounded"
+    style={{height: `${Math.min(35, 10+referenceCodeSepOffset)}rem`}}>
+        <CodeContextManager>
         <CodeDetailComponent />
+        </CodeContextManager>
     </Container>
   );
 };

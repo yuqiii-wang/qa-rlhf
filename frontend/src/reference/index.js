@@ -19,10 +19,11 @@ import { GlobalAppContext } from "../GlobalAppContext";
 import { ReferenceContextManager } from "./ReferenceContext";
 
 const ReferenceComponent = () => {
-    const { solutionLoading, detailResults } = useContext(GlobalAppContext);
+    const { solutionLoading, detailResults, referenceCodeSepOffset } = useContext(GlobalAppContext);
 
     return (
-        <Container className="reference-detail-container border rounded">
+        <Container className="reference-detail-container border rounded"
+        style={{height: `${Math.max(6.5, 32-referenceCodeSepOffset)}rem` }}>
             <ReferenceContextManager>
                 {solutionLoading ? (
                     <Spinner

@@ -1,3 +1,11 @@
+.code-card-container {
+    margin-bottom: 0.1rem;
+}
+
+.code-card-content-container {
+    margin-bottom: 0.1rem;
+}
+
 .code-btn-container {
     opacity: 0.6;
     background-color: #67d1f8;

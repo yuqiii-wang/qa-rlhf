@@ -1,12 +1,10 @@
 import React, { useState, useContext, useEffect, useRef, useCallback } from "react";
 import { Accordion, Button, Container } from "react-bootstrap";
 import AccordionContent from "./AccordionContent";
-import Tooltip from "react-bootstrap/Tooltip";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import axios from "axios";
 import { GlobalAppContext } from "../GlobalAppContext";
 import { extractResponseImages } from "../utils/ImageHandlingUtils"
-import './css/AccordionList.css';
+import './css/SummaryCard.css';
 
 const AccordionList = () => {
     const { summaryResults, solutionLoading,
@@ -43,30 +41,8 @@ const AccordionList = () => {
         setSelectPrevSolutionIdx(selectSolutionIdx);
     }, [selectSolutionIdx]); // Dependency array controls when the effect runs
 
-    const createNewSolution = () => { };
-
     return (
         <Container className="accordion-list-container">
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <OverlayTrigger
-                    placement="top"
-                    overlay={
-                        <Tooltip id="button-tooltip">
-                            Create a new solution.
-                        </Tooltip>
-                    }
-                >
-                    <Button
-                        variant="primary"
-                        type="submit"
-                        onClick={createNewSolution}
-                        style={{ marginBottom: "2%", marginRight: "1%" }}
-                        className="align-items-end"
-                    >
-                        Create
-                    </Button>
-                </OverlayTrigger>
-            </div>
             <Accordion defaultActiveKey={0}
             >
                 {summaryResults.solutions.map((item, index) => (

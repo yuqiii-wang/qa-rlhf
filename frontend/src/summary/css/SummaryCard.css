@@ -1,8 +1,8 @@
-.summary-container {
+.accordion-list-container {
     overflow-y: auto;
-    height: 50%;
+    height: 12rem;
 }
 
-.summary-container-card {
-    height: 50%;
+.summary-container {
+    height: 23rem;
 }

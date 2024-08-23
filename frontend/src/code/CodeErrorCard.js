@@ -6,7 +6,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 const CodeErrorCard = ({ errorText="N/A" }) => {
 
   return (
-    <div>
+    <div className="code-card-content-container">
       <Card.Body>
       <p
             style={{ overflow: 'auto', textAlign: 'left' }}

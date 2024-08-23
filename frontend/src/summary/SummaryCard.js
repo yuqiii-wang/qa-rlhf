@@ -1,11 +1,15 @@
 import React, { useState, useContext, useEffect, useRef, useCallback } from "react";
 import { Container, Row, Col, Form, Button, Card, Spinner } from "react-bootstrap";
+import Tooltip from "react-bootstrap/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import AccordionList from "./AccordionList";
 import {GlobalAppContext} from "../GlobalAppContext";
 
 
 const SummaryCard = () => {
-    const { answerLoading, summaryResults } = useContext(GlobalAppContext)
+    const { answerLoading, summaryResults } = useContext(GlobalAppContext);
+
+    const createNewSolution = () => { };
 
     if (Object.keys(summaryResults).length === 0) {
     return (
@@ -36,6 +40,26 @@ const SummaryCard = () => {
       ) : (
         <p></p>
       )}
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <OverlayTrigger
+                    placement="top"
+                    overlay={
+                        <Tooltip id="button-tooltip">
+                            Create a new solution.
+                        </Tooltip>
+                    }
+                >
+                    <Button
+                        variant="primary"
+                        type="submit"
+                        onClick={createNewSolution}
+                        style={{ marginBottom: "2%", marginRight: "1%" }}
+                        className="align-items-end"
+                    >
+                        Create
+                    </Button>
+                </OverlayTrigger>
+            </div>
       <AccordionList />
     </div>
   );

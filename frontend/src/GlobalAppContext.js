@@ -18,6 +18,7 @@ function GlobalAppContextManager({ children }) {
     const [isSolutionRunDone, setIsSolutionRunDone] = useState(false);
     const [isSolutionConcludeDone, setIsSolutionConcludeDone] = useState(false);
     const [isSolutionExecutionDone, setIsSolutionExecutionDone] = useState(false);
+    const [referenceCodeSepOffset, setReferenceCodeSepOffset] = useState(0);
 
     return (
       <GlobalAppContext.Provider value={{ answerLoading, setAnswerLoading,
@@ -32,7 +33,8 @@ function GlobalAppContextManager({ children }) {
                                         isSolutionRunning, setIsSolutionRunning,
                                         isSolutionRunDone, setIsSolutionRunDone,
                                         isSolutionConcludeDone, setIsSolutionConcludeDone,
-                                        isSolutionExecutionDone, setIsSolutionExecutionDone
+                                        isSolutionExecutionDone, setIsSolutionExecutionDone,
+                                        referenceCodeSepOffset, setReferenceCodeSepOffset
                                         }}>
         {children}
       </GlobalAppContext.Provider>
