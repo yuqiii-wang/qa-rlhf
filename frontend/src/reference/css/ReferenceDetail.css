@@ -16,3 +16,13 @@
     background-color: #67d1f8;
     cursor: not-allowed;
 }
+
+.reference-run-btn-container {
+    display: flex;
+    justify-content: flex-end; /* Aligns items to the right */
+    align-items: center; /* Optionally aligns items vertically center */
+}
+
+.reference-run-btn-item {
+    margin-left: auto; /* Pushes the item to the right side of the container */
+}

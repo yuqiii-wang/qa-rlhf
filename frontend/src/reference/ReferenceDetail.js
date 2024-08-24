@@ -1,17 +1,20 @@
 import React, { useState, useContext, useEffect, useRef, useCallback } from "react";
 import { Container, Row, Col, Form, Button, InputGroup, Card } from "react-bootstrap";
-import Tooltip from "react-bootstrap/Tooltip";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ImageReferenceDetails from "./ImageReferenceDetails";
 import CodeReferenceDetails from "./CodeReferenceDetails";
 import { GlobalAppContext } from "../GlobalAppContext";
 import { ReferenceContext, ReferenceContextManager } from './ReferenceContext';
 import InputCmd from "./InputCmd";
+import {RunSolutionButton} from "../utils/GlobalSharedButtons"
+
 import "./css/ReferenceDetail.css"
 
 const ReferenceDetailComponent = () => {
-    const { referenceResults, referenceImageResults, setExecutionLoading, referenceCodeSepOffset } = useContext(GlobalAppContext);
+    const { referenceResults, referenceImageResults, solutionId, isSolutionShowDone,
+        setExecutionLoading, referenceCodeSepOffset } = useContext(GlobalAppContext);
     const { codeRows, setCodeRows } = useContext(ReferenceContext);
+
+    const [hover, setHover] = useState(false);
 
     const handleAddNotesClick = () => {
         const newRow = ({
@@ -24,13 +27,20 @@ const ReferenceDetailComponent = () => {
 
     return (
         <div>
-            <div className="reference-detail-list-container" 
-            style={{ width: "100%", height: `${Math.max(3.2, 28-referenceCodeSepOffset)}rem` }}>
+            <Container className="reference-detail-list-container"
+                style={{ height: `${Math.max(3.2, 28 - referenceCodeSepOffset)}rem` }}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}>
                 {referenceImageResults != null ? (
                     <ImageReferenceDetails className="mt-auto" />
                 ) : ("")}
                 <CodeReferenceDetails className="mt-auto" />
-            </div>
+                <Container className="reference-run-btn-container">
+                    {hover && (
+                        <RunSolutionButton onComponent="reference"></RunSolutionButton>
+                    )}
+                </Container>
+            </Container>
             <Container style={{ height: "12%", width: "100%" }}>
                 <InputCmd ></InputCmd>
             </Container>

@@ -38,46 +38,27 @@ const InputCmd = () => {
         <Container className="reference-input-container">
             <Row className="align-items-right">
                 <Col xs={8}>
-                    {!isSolutionShowDone || isSolutionRunning ? (
-                        <InputGroup>
-                            <Form.Control type="text" placeholder="Shell scripts, e.g., `grep 123456789 *.log`" />
-                            <Button variant="outline-secondary" onClick={handleArrowClick}
-                            disabled className="reference-input-btn-container">
-                                →
-                            </Button>
-                        </InputGroup>
-                    ) : (
-                        <InputGroup>
-                            <Form.Control type="text" placeholder="Shell scripts, e.g., `grep 123456789 *.log`" />
-                            <Button variant="outline-secondary" onClick={handleArrowClick}>
-                                →
-                            </Button>
-                        </InputGroup>
-                    )
-                    }
+                    <InputGroup>
+                        <Form.Control type="text" placeholder="Shell scripts, e.g., `grep 123456789 *.log`" />
+                        <Button variant="outline-secondary" onClick={handleArrowClick}
+                            disabled={!isSolutionShowDone || isSolutionRunning ? true : false}
+                            className={!isSolutionShowDone || isSolutionRunning ? "reference-input-btn-container" : ""}>
+                            →
+                        </Button>
+                    </InputGroup>
                 </Col>
                 <Col className="d-flex justify-content-end">
-                    {!isSolutionShowDone || isSolutionRunning ? (
-                        <React.Fragment>
-                            <Button variant="primary" onClick={handleConcludeClick}
-                                disabled className="reference-input-btn-container">
-                                Conclude
-                            </Button>
-                            <Button variant="primary" onClick={handleAddNotesClick} style={{ marginLeft: "2%" }}
-                                disabled className="reference-input-btn-container">
-                                Add Notes
-                            </Button>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            <Button variant="primary" onClick={handleConcludeClick} >
-                                Conclude
-                            </Button>
-                            <Button variant="primary" onClick={handleAddNotesClick} style={{ marginLeft: "2%" }}>
-                                Add Notes
-                            </Button>
-                        </React.Fragment>
-                    )}
+                    <React.Fragment>
+                        <Button variant="primary" onClick={handleConcludeClick}
+                            disabled={!isSolutionShowDone || isSolutionRunning ? true : false}
+                            className={!isSolutionShowDone || isSolutionRunning ? "reference-input-btn-container" : ""}>
+                            Conclude
+                        </Button>
+                        <Button variant="primary" onClick={handleAddNotesClick} style={{ marginLeft: "2%" }}
+                            disabled={!isSolutionShowDone || isSolutionRunning ? true : false}
+                            className={!isSolutionShowDone || isSolutionRunning ? "reference-input-btn-container" : ""}>                                Add
+                        </Button>
+                    </React.Fragment>
                 </Col>
             </Row>
         </Container>

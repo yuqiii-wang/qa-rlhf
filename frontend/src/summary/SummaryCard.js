@@ -3,13 +3,17 @@ import { Container, Row, Col, Form, Button, Card, Spinner } from "react-bootstra
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import AccordionList from "./AccordionList";
+import NameTagsPopup from "./CreateNewQAModal";
 import {GlobalAppContext} from "../GlobalAppContext";
 
 
 const SummaryCard = () => {
     const { answerLoading, summaryResults } = useContext(GlobalAppContext);
+    const [showNewQAPopup, setShowNewQAPopup] = useState(false);
 
-    const createNewSolution = () => { };
+    const createNewQASolution = () => { 
+        setShowNewQAPopup(true);
+    };
 
     if (Object.keys(summaryResults).length === 0) {
     return (
@@ -29,6 +33,7 @@ const SummaryCard = () => {
 
   return (
     <div>
+              <NameTagsPopup show={showNewQAPopup} setShow={setShowNewQAPopup}></NameTagsPopup>
       <p style={{ position: "relative", padding: "20px" }}>
         {summaryResults.summary}
       </p>
@@ -52,8 +57,8 @@ const SummaryCard = () => {
                     <Button
                         variant="primary"
                         type="submit"
-                        onClick={createNewSolution}
-                        style={{ marginBottom: "2%", marginRight: "1%" }}
+                        onClick={createNewQASolution}
+                        style={{ marginBottom: "2%"}}
                         className="align-items-end"
                     >
                         Create

@@ -35,35 +35,6 @@ const SummaryCard = ({ initialSummary }) => {
             </p>
         )}
       </div>
-      <Card.Footer style={{ display: "flex", justifyContent: "flex-end" }}>
-                {!isSolutionConcludeDone ? (
-                    <React.Fragment>
-                            <Button
-                                variant="primary"
-                                type="submit"
-                                disabled className="code-btn-container"
-                                style={{ display: "flex", marginLeft: "1%", marginRight: "1%" }}
-                                onClick={handleEditToggle}>
-                                Edit
-                            </Button>
-                    </React.Fragment>
-                ) : (
-                    <React.Fragment>
-                        <OverlayTrigger
-                            placement="top" // You can adjust the position: 'top', 'right', 'bottom', 'left'
-                            overlay={<Tooltip id="button-tooltip">Edit the code.</Tooltip>}
-                        >
-                            <Button
-                                variant="primary"
-                                type="submit"
-                                style={{ display: "flex", marginLeft: "1%", marginRight: "1%" }}
-                                onClick={handleEditToggle}>
-                                {isEditing ? 'Save' : 'Edit'}
-                            </Button>
-                        </OverlayTrigger>
-                    </React.Fragment>
-                )}
-            </Card.Footer>
     </div>
   );
 };

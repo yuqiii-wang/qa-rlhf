@@ -20,7 +20,7 @@ const CodeReferenceDetail = ({ code, onDelete, language='shell' }) => {
   };
 
   return (
-    <Container className='position-relative'
+    <div className='position-relative'
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
@@ -66,7 +66,7 @@ const CodeReferenceDetail = ({ code, onDelete, language='shell' }) => {
           <span style={{ fontWeight: 'bold', color: 'black' }}>&times;</span>
         </div>
       )}
-    </Container>
+    </div>
   );
 };
 
