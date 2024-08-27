@@ -1,7 +1,12 @@
+import asyncio
 import base64
+from concurrent import futures
 from flask import Flask, request, jsonify, send_file, make_response
 from flask_cors import CORS
 import random, io, os, zipfile, glob
+from llama_index.core import VectorStoreIndex, Document
+
+from db.vector_store import ElasticsearchVectorStore
 
 # Create a Flask application instance
 app = Flask(__name__)
@@ -12,6 +17,18 @@ app_dir = os.path.dirname(os.path.abspath(__file__))
 @app.route('/', methods=['GET'])
 def hello_world():
     return "hello world"
+
+@app.route('/test', methods=['GET'])
+def test():
+    test_async()
+    return "submitted", 200
+
+def test_async():
+    es_vec_store = ElasticsearchVectorStore(index_name="questions")
+
+@app.route('/process/ask', methods=['GET'])
+def ask_question():
+    id = request.args.get('id', '-1')
 
 # Define a route to handle POST requests
 @app.route('/process', methods=['POST', 'GET'])
@@ -156,7 +173,7 @@ def upload():
     
     return response, send_file(zip_buffer, mimetype='application/zip', as_attachment=True, attachment_filename='files.zip')
 
+thread_pool_executor = futures.ThreadPoolExecutor(max_workers=10)
 
 # Run the app if this script is executed
-if __name__ == '__main__':
-    app.run(debug=True)
+app.run(debug=True)
