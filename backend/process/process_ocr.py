@@ -1,39 +1,48 @@
-from paddleocr import PaddleOCR, draw_ocr
+from paddleocr import PaddleOCR
+from PIL import Image, ImageDraw, ImageFont
 import cv2
-import os
-from matplotlib import pyplot as plt
+import os, json
 
+from config import LOCAL_INPUT_IMAGE_DIR, LOCAL_OCR_IMAGE_DIR
+from process.ocr_parser.bloomberg_bond_rules import parse_bloomberg_bond_ocr
+from process.ocr_parser.text_bounding_box import TextBoundingBox
 
-# Initialize the PaddleOCR model with English model
-ocr = PaddleOCR(use_angle_cls=True, lang='en') 
+class OCREngine:
 
-# Path to your image file
-image_path = '150.png'
+    def __init__(self):
+        self.paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en')
 
-# Run OCR on the image
-result = ocr.ocr(image_path, cls=True)
+    def draw_ocr(self, filename:str, bounding_boxes:list[TextBoundingBox]):
+        
+        image_input_path = os.path.join(LOCAL_INPUT_IMAGE_DIR, filename)
+        image_output_path = os.path.join(LOCAL_OCR_IMAGE_DIR, filename)
 
-# Load the image
-image = cv2.imread(image_path)
+        image = cv2.imread(image_input_path)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = Image.fromarray(image)
+        draw = ImageDraw.Draw(image)
+        for bounding_box in bounding_boxes:
+            draw.polygon(bounding_box.box, outline="red")
+        image.save(image_output_path)
 
-# Extract results
-for idx in range(len(result)):
-    res = result[idx]
-    for line in res:
-        print(f"Detected text: {line[1][0]}")
+    def process_ocr(self, filename:str) -> list[TextBoundingBox]:
+        
+        image_input_path = os.path.join(LOCAL_INPUT_IMAGE_DIR, filename)
+        result = self.paddle_ocr.ocr(image_input_path, cls=True)
 
-# Visualization of the results
-boxes = [line[0] for res in result for line in res]  # Bounding boxes
-txts = [line[1][0] for res in result for line in res]  # Recognized texts
-scores = [line[1][1] for res in result for line in res]  # Confidence scores
+        text_bounding_boxes = []
+        for idx in range(len(result)):
+            res = result[idx]
+            for line in res:
+                text = line[1][0]
+                score = line[1][1]
+                box = [(point[0], point[1]) for point in line[0]]
+                text_bounding_boxes.append(TextBoundingBox(text, box, score))
+        return text_bounding_boxes
 
-# Draw the results on the image
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-im_show = draw_ocr(image, boxes, txts, scores, font_path='arial.pil',
-                   )
+    def parse_ocr(self, bounding_boxes:list[TextBoundingBox], parser_func=parse_bloomberg_bond_ocr) -> list[TextBoundingBox]:
+        return parser_func(bounding_boxes)
 
-# Display the image with OCR results
-plt.figure(figsize=(10,10))
-plt.imshow(im_show)
-plt.axis('off')
-plt.show()
+if __name__=="__main__":
+    ocrEngine = OCREngine()
+    ocrEngine.process_ocr("bond_bloomberg.png")

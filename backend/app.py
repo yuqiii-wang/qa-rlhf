@@ -7,6 +7,7 @@ import random, io, os, zipfile, glob
 from llama_index.core import VectorStoreIndex, Document
 
 from db.vector_store import ElasticsearchVectorStore
+from init import ocr_engine
 
 # Create a Flask application instance
 app = Flask(__name__)
@@ -20,18 +21,20 @@ def hello_world():
 
 @app.route('/test', methods=['GET'])
 def test():
-    test_async()
     return "submitted", 200
-
-def test_async():
-    es_vec_store = ElasticsearchVectorStore(index_name="questions")
 
 @app.route('/process/ask', methods=['GET'])
 def ask_question():
     id = request.args.get('id', '-1')
 
+@app.route('/process/ocr', methods=['GET'])
+def app_process_ocr():
+    questionId = request.args.get('questionId', '-1')
+    solutionId = request.args.get('solutionId', '-1')
+    filename = request.args.get('filename', '-1')
+
 # Define a route to handle POST requests
-@app.route('/process', methods=['POST', 'GET'])
+@app.route('/process/test', methods=['POST', 'GET'])
 def process_data():
     # Get JSON data from the request
 
@@ -114,33 +117,12 @@ def process_reference():
         }
     return jsonify(response_data), 200
 
-
-@app.route('/process/fileupload', methods=['POST'])
-def process_fileupload():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file part in the request'}), 400
-    
-    file = request.files['file']
-    
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-
-    # Optionally, you can save the file to a directory
-    # file_path = os.path.join('/path/to/save', file.filename)
-    # file.save(file_path)
-
-    # Get file detail
-    file_detail = {
-        'file_name': file.filename,
-        'file_size': len(file.read()),
-        'content_type': file.content_type
-    }
-
-    # To avoid file.read() affecting file.save(), the position should be reset
-    file.seek(0)
-
-    return jsonify(file_detail), 200
-
+@app.route('/process/test/ocr', methods=['GET'])
+def app_process_test_ocr():
+    bounding_boxes = ocr_engine.process_ocr("bond_bloomberg.png")
+    bounding_boxes = ocr_engine.parse_ocr(bounding_boxes)
+    ocr_engine.draw_ocr("bond_bloomberg.png", bounding_boxes)
+    return ";".join([boudning_box.text for boudning_box in bounding_boxes]), 200
 
 @app.route('/process/upload/images', methods=['POST'])
 def upload():

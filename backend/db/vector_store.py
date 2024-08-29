@@ -27,6 +27,7 @@ Settings.embed_model = HuggingFaceEmbedding(
 class ElasticsearchVectorStore:
 
     def __init__(self, index_name:str) -> None:
+        return
         # define index
         # see Elasticsearch Vector Store for more authentication options
         es_url="http://localhost:9200"

@@ -27,6 +27,8 @@ nohup.out
 *.pyc
 __pycache__
 
+app.log
+
 ### models
 BAAI*
 sentence-transformers*
