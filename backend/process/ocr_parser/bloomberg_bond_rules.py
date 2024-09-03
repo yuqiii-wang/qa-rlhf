@@ -13,6 +13,7 @@ REGEX_RULES = {
     "S&P": r"S&P[; ]*[\w\+\-]+",
     "Fitch": r"Fitch[; ]*[\w\+\-]+",
     "Coupon": r"Coupon[^s][; ]*[fF\d\.]+",
+    "Maturity": r"Coupon[^s][; ]*[\w\/]+",
     "Day Cnt": r"Day Cnt[; ]*[\w\/]+",
     "Cpn Freq": r"Cpn Freq[; ]*[\w\/]+",
     "Interest Accrual Date": r"Interest Accrual Date[; ]*[\w\/]+",
@@ -35,5 +36,5 @@ def parse_bloomberg_bond_ocr(bounding_boxes:list[TextBoundingBox]) -> list[TextB
                         found_items[rule_key] = bounding_boxes[(idx+1) % len(bounding_boxes)].text
                         found_bounding_boxes.append(bounding_boxes[(idx+1) % len(bounding_boxes)])
                     else:
-                        found_items[rule_key] = re.sub(r"^\(" + REGEX_RULES[rule_key] + "\)", boudning_box.text, "")
+                        found_items[rule_key] = re.sub(r"^\(" + REGEX_RULES[rule_key] + r"\)", boudning_box.text, "")
     return found_bounding_boxes

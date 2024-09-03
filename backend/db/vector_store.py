@@ -7,45 +7,44 @@ from llama_index.core import StorageContext, load_index_from_storage
 from llama_index.core.schema import TextNode
 from llama_index.vector_stores.elasticsearch import AsyncDenseVectorStrategy
 from llama_index.core.node_parser import SentenceSplitter
-from llama_index.core import Settings
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.storage.index_store.elasticsearch import ElasticsearchIndexStore
 from llama_index.storage.kvstore.elasticsearch import ElasticsearchKVStore
-from elasticsearch import Elasticsearch, AsyncElasticsearch
 import os
 
-from models.embeddings import embed_model
-from utils.utils import find_project_root
-
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
-Settings.embed_model = HuggingFaceEmbedding(
-    model_name=os.path.join(find_project_root(), 'models','sentence-transformers','all-MiniLM-L6-v2')
-)
-
+from models.custom_embeds import CustomHuggingFaceEmbeddings
+from db.es_client import ElasticSearchClient
 
 class ElasticsearchVectorStore:
 
-    def __init__(self, index_name:str) -> None:
-        return
+    def __init__(self, index_name:str="default-health-check") -> None:
         # define index
-        # see Elasticsearch Vector Store for more authentication options
-        es_url="http://localhost:9200"
-        self.es_client = Elasticsearch(hosts=es_url)
-        self.dense_vector_store = ElasticsearchStore(
-            es_url=es_url,  # for Elastic Cloud authentication see above
-            index_name=index_name,
+        self.embeds = CustomHuggingFaceEmbeddings()
+        self.es_client = ElasticSearchClient()
+        dense_vector_store = ElasticsearchStore(
+            es_url=self.es_client.es_url,  # for Elastic Cloud authentication see above
+            index_name=f"{index_name}",
         )
         kv_store = ElasticsearchKVStore(
-            es_client=self.es_client,
-            index_name=f"{index_name}-index"
+            es_client=self.es_client.es_conn,
+            index_name=f"{index_name}"
         )
         index_store = ElasticsearchIndexStore(elasticsearch_kvstore=kv_store,
-                                collection_index=f"{index_name}-index")
+                                collection_index=f"{index_name}",
+                                collection_suffix="-index")
         self.storage_context = StorageContext.from_defaults(
-            vector_store=self.dense_vector_store,
+            vector_store=dense_vector_store,
             index_store=index_store)
         self.index_name = index_name
+
+        sleep(10) # wait for the main proc properly started, should be improved
+        self.index = VectorStoreIndex.from_documents(
+            [Document(text="Health check test")],
+            storage_context=self.storage_context,
+            embed_model=self.embeds,
+            show_progress=True
+        )
+
+    async def test_add_doc(self):
 
         questions = [
                 Document(
@@ -70,10 +69,13 @@ class ElasticsearchVectorStore:
                 ),
             ]
         self.index = VectorStoreIndex.from_documents(
-            questions, storage_context=self.storage_context,
-            embed_model=embed_model, show_progress=True
+            questions,
+            storage_context=self.storage_context,
+            embed_model=self.embeds,
+            show_progress=True
         )
-        print("hhh")
+        self.index.storage_context.persist()
+
 
     def add_doc_index(self, docs:list[Document]):
         # new_nodes = [self.index.doc_to_node(doc) for doc in docs]
