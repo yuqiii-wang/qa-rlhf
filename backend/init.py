@@ -25,9 +25,9 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 es_client = ElasticSearchClient()
 
 es_vec_store = ElasticsearchVectorStore()
-# asyncio.run(es_vec_store.test_add_doc())
+es_vec_store.health_test()
 
-ocr_engine = OCREngine()
+# ocr_engine = OCREngine()
 
 # dimensions of sentence-transformers/all-MiniLM-L6-v2
 # d = 384

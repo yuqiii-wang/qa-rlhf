@@ -61,40 +61,16 @@ def process_reference_show():
 @app.route('/process/test/ocr', methods=['GET'])
 def app_process_test_ocr():
     bounding_boxes = ocr_engine.process_ocr("bond_bloomberg.png")
-    bounding_boxes = ocr_engine.parse_ocr(bounding_boxes)
-    ocr_engine.draw_ocr("bond_bloomberg.png", bounding_boxes)
-    return ";".join([boudning_box.text for boudning_box in bounding_boxes]), 200
+    found_bounding_boxes, found_items = ocr_engine.parse_ocr(bounding_boxes)
+    image_output_path = ocr_engine.draw_ocr("bond_bloomberg.png", found_bounding_boxes)
+    return jsonify(found_items), 200
 
 @app.route('/process/upload/images', methods=['POST'])
 def upload():
     # Access form data, files, or JSON data from the request if needed
     data = request.form
     files = request.files.getlist("files")
-    response_data = {
-        "status": "success",
-        "message": "Files processed",
-        "details": data
-    }
     
-    # Prepare the zip file in memory
-    zip_buffer = io.BytesIO()
-    with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
-        for file in files:
-            # Add each file to the zip archive
-            file_content = file.read()
-            zip_file.writestr(file.filename, file_content)
-    
-    # Seek to the beginning of the stream
-    zip_buffer.seek(0)
-    
-    # Make the response
-    response = make_response(jsonify(response_data))
-    
-    # Attach the zip file
-    response.headers['Content-Type'] = 'application/zip'
-    response.headers['Content-Disposition'] = 'attachment; filename=files.zip'
-    
-    return response, send_file(zip_buffer, mimetype='application/zip', as_attachment=True, attachment_filename='files.zip')
 
 thread_pool_executor = futures.ThreadPoolExecutor(max_workers=10)
 

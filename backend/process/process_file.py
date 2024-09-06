@@ -1,3 +1,6 @@
+import io
+from typing import List, Union
+import zipfile
 from flask import Flask, request, jsonify, send_file, make_response
 import os
 from config import LOCAL_INPUT_IMAGE_DIR
@@ -35,3 +38,28 @@ def process_delete_file(filename:str):
         return "File deleted", 200
     else:
         return "File not found", 404
+
+# def process_response_file(filenames:Union[List[str],str]):
+#     response_data = {
+#         "status": "success",
+#     }
+    
+#     # Prepare the zip file in memory
+#     zip_buffer = io.BytesIO()
+#     with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
+#         for file in files:
+#             # Add each file to the zip archive
+#             file_content = file.read()
+#             zip_file.writestr(file.filename, file_content)
+    
+#     # Seek to the beginning of the stream
+#     zip_buffer.seek(0)
+    
+#     # Make the response
+#     response = make_response(jsonify(response_data))
+    
+#     # Attach the zip file
+#     response.headers['Content-Type'] = 'application/zip'
+#     response.headers['Content-Disposition'] = 'attachment; filename=files.zip'
+    
+#     return response, send_file(zip_buffer, mimetype='application/zip', as_attachment=True, attachment_filename='files.zip')

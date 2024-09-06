@@ -33,17 +33,16 @@ class ElasticsearchVectorStore:
         index_store = ElasticsearchIndexStore(elasticsearch_kvstore=kv_store,
                                 collection_index=f"{index_name}-indexstore")
         self.vec_storage_context = StorageContext.from_defaults(
-                                vector_store=dense_vector_store,
-                                index_store=index_store)
+            vector_store=dense_vector_store,
+            index_store=index_store)
         self.index_name = index_name
         self.parser = SentenceSplitter()
-    
-    def health_test(self):
+
         async def test_conn():
             doc = Document(text="Health check test")
             doc.metadata["created_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            index_exists = await self.es_client.es_conn.indices.exists(index=f"{self.index_name}-indexstore")
-            sleep(6) # wait for the main proc properly started, should be improved
+            index_exists = await self.es_client.es_conn.indices.exists(index=f"{index_name}-indexstore")
+            sleep(5) # wait for the main proc properly started, should be improved
             if index_exists:
                 self.vec_index = load_index_from_storage(storage_context=self.vec_storage_context,
                                                      embed_model=self.embeds)
@@ -57,8 +56,6 @@ class ElasticsearchVectorStore:
                 )
         asyncio.run(test_conn())
         self.retrieval_engine = CustomRetriever(self.vec_index)
-        result = self.retrieval_engine.retrieve("check.")
-        return result
 
 
     def search( self,

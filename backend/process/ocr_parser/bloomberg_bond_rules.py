@@ -28,13 +28,17 @@ def parse_bloomberg_bond_ocr(bounding_boxes:list[TextBoundingBox]) -> list[TextB
     # Assume if regex matched, full text contained either this bounding box or two consecutive boxes
     for idx, boudning_box in enumerate(bounding_boxes):
         for rule_key in REGEX_RULES:
-            if rule_key in boudning_box.text:
+            if rule_key in boudning_box.text and not rule_key in found_items:
                 match = re.search(REGEX_RULES[rule_key], bounding_box_str)
                 if match:
                     found_bounding_boxes.append(boudning_box)
-                    if bounding_boxes[(idx+1) % len(bounding_boxes)].text in match.group():
-                        found_items[rule_key] = bounding_boxes[(idx+1) % len(bounding_boxes)].text
+                    bounding_box_next_text = bounding_boxes[(idx+1) % len(bounding_boxes)].text
+                    matched_text = match.group()
+                    if bounding_box_next_text in matched_text:
+                        found_items[rule_key] = bounding_box_next_text
                         found_bounding_boxes.append(bounding_boxes[(idx+1) % len(bounding_boxes)])
                     else:
-                        found_items[rule_key] = re.sub(r"^\(" + REGEX_RULES[rule_key] + r"\)", boudning_box.text, "")
-    return found_bounding_boxes
+                        item_text:str = boudning_box.text
+                        item_text = item_text.replace(rule_key, "").replace(";", "").replace(" ", "")
+                        found_items[rule_key] = item_text
+    return found_bounding_boxes, found_items

@@ -2,6 +2,7 @@ import base64
 import random, io, os, zipfile, glob
 from flask import Flask, request, jsonify, send_file, make_response
 from utils.utils import find_project_root
+from init import ocr_engine
 
 app_dir = find_project_root()
 
@@ -19,6 +20,10 @@ def process_test_solution_show(solution_id):
     return jsonify(response_data), 200
 
 def process_test_solution_run(solution_id):
+    bounding_boxes = ocr_engine.process_ocr("bond_bloomberg.png")
+    found_bounding_boxes, found_items = ocr_engine.parse_ocr(bounding_boxes)
+    image_output_path = ocr_engine.draw_ocr("bond_bloomberg.png", found_bounding_boxes)
+
     solution_reference = [
         {
             "command": "pwd",
@@ -32,8 +37,8 @@ def process_test_solution_run(solution_id):
                     "[2024-09-10 12:11:15] api.ss response is eewhhh eewhhh eewhhh.\n"
                     "[2024-09-10 12:11:15] api.ss response is ehhhahh ehhhahh ehhhahh.\n"
         },
-        {"image": "bond_bloomberg.png",
-         "ocr_json": ""},
+        {"image": image_output_path,
+         "ocr_json": found_items},
         {
             "command": "pwd",
             "results": "/opt/app/ai-support"

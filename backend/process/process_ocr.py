@@ -12,7 +12,7 @@ class OCREngine:
     def __init__(self):
         self.paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en')
 
-    def draw_ocr(self, filename:str, bounding_boxes:list[TextBoundingBox]):
+    def draw_ocr(self, filename:str, bounding_boxes:list[TextBoundingBox]) -> str:
         
         image_input_path = os.path.join(LOCAL_INPUT_IMAGE_DIR, filename)
         image_output_path = os.path.join(LOCAL_OCR_IMAGE_DIR, filename)
@@ -24,6 +24,8 @@ class OCREngine:
         for bounding_box in bounding_boxes:
             draw.polygon(bounding_box.box, outline="red")
         image.save(image_output_path)
+
+        return image_output_path
 
     def process_ocr(self, filename:str) -> list[TextBoundingBox]:
         
@@ -45,4 +47,4 @@ class OCREngine:
 
 if __name__=="__main__":
     ocrEngine = OCREngine()
-    ocrEngine.process_ocr("bond_bloomberg.png")
+    found_bounding_boxes, found_items = ocrEngine.process_ocr("bond_bloomberg.png")

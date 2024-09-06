@@ -31,5 +31,3 @@ def make_test_solutions():
     response_list["solutions"] = response_list["solutions"][0:random.randint(0,4)]
     return jsonify(response_list), 200
 
-if __name__=="__main__":
-    print(make_embs())

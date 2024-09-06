@@ -10,21 +10,22 @@ import requests
 from utils.utils import find_project_root
 
 
-embed_model = HuggingFaceEmbedding(
+def get_emb_wrapper(texts:Union[List[str], str], shared_list):
+    embed_model = HuggingFaceEmbedding(
                     model_name=os.path.join(
                                     find_project_root(), 
                                     "models",
                                     'sentence-transformers',
                                     'all-MiniLM-L6-v2'),
                     parallel_process=False)
-
-def get_emb_wrapper(texts:Union[List[str], str], shared_list):
     if isinstance(texts, List):
         for idx, text in enumerate(texts):
-            shared_list.append(embed_model.get_text_embedding(text))
+            embed = embed_model.get_text_embedding(text)
+            shared_list.append(embed)
     else:
         text = texts
-        shared_list = embed_model.get_text_embedding(text)
+        embed = embed_model.get_text_embedding(text)
+        shared_list = embed
 
 class CustomHuggingFaceEmbeddings(BaseEmbedding):
     def __init__(
@@ -70,5 +71,7 @@ class CustomHuggingFaceEmbeddings(BaseEmbedding):
                                         args=(texts, shared_list))
             proc.start()
             proc.join()
+            if proc.exitcode != 0:
+                raise RuntimeError(f"Multiprocess exitcode: {proc.exitcode}")
             emb_list = list(shared_list)
             return emb_list
